@@ -1,0 +1,37 @@
+.card{
+    -fx-background-radius: 5px;
+    -fx-padding: 8px;
+    -fx-font-size: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0, 0, 1);
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s;
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: -fx-text-color;
+}
+
+.card.fav{
+    -fx-background-color: #FEBA17;
+}
+
+.card.done{
+    -fx-background-color: #BDDDE4;
+}
+
+.card.note{
+    -fx-background-color: #9EC6F3;
+}
+
+.menu-label{
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-alignment: left;
+}
+
+.done .menu-label{
+    -fx-text-fill: green;
+}
+
+.note .menu-label{
+    -fx-text-fill: #00126d;
+}

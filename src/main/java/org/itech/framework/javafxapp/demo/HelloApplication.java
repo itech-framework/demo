@@ -56,7 +56,7 @@ public class HelloApplication extends ITechJavaFxApplication {
 
         router.getConfig().addStyleSheets(Objects.requireNonNull(getClass().getResource("/static/css/app.css")).toExternalForm());
 
-        router.registerRoute("dashboard", "dashboard/dashboard-view.fxml", DashboardController.class, "fade");
+        router.registerRoute("dashboard", "dashboard/dashboard-view.fxml", DashboardController.class, "upToDown");
         router.registerRoute("today-tasks", "tasks/today-tasks-view.fxml", MyTaskViewController.class, "upToDown");
     }
 
@@ -72,6 +72,7 @@ public class HelloApplication extends ITechJavaFxApplication {
             stage.getScene().getRoot().setFocusTraversable(true);
             stage.getScene().getRoot().requestFocus();
         });
+        stage.setMaximized(true);
         stage.show();
     }
     public static void main(String[] args) throws Exception {

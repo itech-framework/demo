@@ -1,0 +1,71 @@
+package org.itech.framework.javafxapp.demo.services;
+
+import org.itech.framework.fx.core.annotations.components.levels.BusinessLogic;
+import org.itech.framework.fx.core.annotations.reactives.Rx;
+import org.itech.framework.fx.core.utils.validator.CommonValidator;
+import org.itech.framework.javafxapp.demo.data_access.entities.Task;
+import org.itech.framework.javafxapp.demo.data_access.repository.TaskRepository;
+import org.itech.framework.javafxapp.demo.dtos.CommonDTO;
+import org.itech.framework.javafxapp.demo.dtos.TaskDTO;
+
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+@BusinessLogic
+public class TaskServiceImpl implements TaskService{
+
+    @Rx
+    TaskRepository taskRepository;
+
+    @Override
+    public TaskDTO manageTask(TaskDTO taskDTO) throws Exception {
+        if(!CommonValidator.isValidObject(taskDTO)) return null;
+        Task task = null;
+        if(CommonValidator.validLong(taskDTO.getId())){
+            Optional<Task> taskOpt = this.taskRepository.findById(taskDTO.getId());
+            if(taskOpt.isPresent()){
+                task = taskOpt.get();
+                task.setUpdatedDateTime(new Date());
+            }else{
+                throw new Exception("No reference object found");
+            }
+        }else{
+            task = new Task();
+            task.setCreatedDateTime(new Date());
+        }
+
+        task.setTitle(taskDTO.getTitle());
+        task.setDescription(taskDTO.getDescription());
+        task.setDueDate(taskDTO.getDueDate());
+        task.setStartDate(taskDTO.getStartDate());
+        task.setStatus(taskDTO.getStatus());
+        task.setPriority(taskDTO.getPriority());
+        task.setProgress(taskDTO.getProgress());
+
+        Task updated = this.taskRepository.save(task);
+
+        return new TaskDTO(updated);
+    }
+
+    @Override
+    public List<TaskDTO> getAllTask() {
+        List<Task> tasks = this.taskRepository.findAll();
+        if(CommonValidator.validList(tasks)){
+            return tasks.stream().map(TaskDTO::new).toList();
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public boolean deleteTask(Long taskId) throws Exception {
+        Optional<Task> taskOpt = this.taskRepository.findById(taskId);
+        if(taskOpt.isPresent()){
+            this.taskRepository.deleteById(taskId);
+            return true;
+        }else{
+            throw new Exception("No reference found!");
+        }
+    }
+}

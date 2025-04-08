@@ -7,7 +7,7 @@
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<AnchorPane prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.itech.framework.javafxapp.demo.controllers.tasks.MyTaskViewController">
+<AnchorPane prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.itech.framework.javafxapp.demo.controllers.tasks.TaskViewController">
    <BorderPane layoutX="67.0" layoutY="62.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <top>
          <VBox>
@@ -16,6 +16,7 @@
                <Button mnemonicParsing="false" text="Create" />
                <TextField minWidth="200" promptText="Search tasks..." />
                <Button mnemonicParsing="false" text="Search" />
+               <Button fx:id="darkModeBtn" mnemonicParsing="false" text="Dark Mode" />
             </HBox>
             <HBox prefHeight="30.0" spacing="5.0">
                <Button mnemonicParsing="false" text="List" />
@@ -29,34 +30,27 @@
          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
       </padding>
       <center>
-         <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="content-body" BorderPane.alignment="CENTER">
-            <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <AnchorPane  prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <BorderPane styleClass="content-body, primary-background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <right>
                   <ScrollPane hbarPolicy="NEVER" pannable="true"
                               prefViewportHeight="600"
                               prefViewportWidth="350"
-                              style="-fx-background-color: transparent;"
                               cache="true"
                               cacheHint="SPEED" fitToHeight="true" fitToWidth="true">
-                     <VBox prefWidth="350" spacing="20" style="-fx-padding: 20;" styleClass="sidebar">
+                     <VBox prefWidth="350" spacing="10" style="-fx-padding: 10;" styleClass="sidebar">
                         <VBox styleClass="card-b">
                            <Label text="Create New Task" styleClass="card-b-title"/>
                            <VBox spacing="12" style="-fx-padding: 0 0 0 5;">
-                              <TextField promptText="Task Title" styleClass="modern-input"/>
-                              <TextArea promptText="Description" styleClass="modern-textarea" prefRowCount="2"/>
+                              <TextField fx:id="taskTitleText" promptText="Task Title" styleClass="modern-input"/>
+                              <TextArea fx:id="description" promptText="Description" styleClass="modern-textarea" prefRowCount="2"/>
                               <HBox spacing="10">
-                                 <DatePicker promptText="Due Date" styleClass="modern-datepicker"/>
-                                 <ComboBox promptText="Priority" styleClass="modern-combo">
-                                    <items>
-                                       <FXCollections fx:factory="observableArrayList">
-                                          <String fx:value="High"/>
-                                          <String fx:value="Medium"/>
-                                          <String fx:value="Low"/>
-                                       </FXCollections>
-                                    </items>
-                                 </ComboBox>
+                                 <DatePicker fx:id="startDateText" promptText="Start Date" styleClass="modern-datepicker"/>
+                                 <DatePicker fx:id="dueDateText" promptText="Due Date" styleClass="modern-datepicker"/>
                               </HBox>
-                              <Button text="Add Task" styleClass="primary-button"/>
+                              <ComboBox fx:id="priorityCombobox" promptText="Priority" styleClass="modern-combo">
+                              </ComboBox>
+                              <Button onAction="#handleCreateTask" text="Add Task" styleClass="primary-button"/>
                            </VBox>
                         </VBox>
                         <!-- Stats Card -->
@@ -69,6 +63,7 @@
                         </VBox>
                      </VBox>
                   </ScrollPane>
+
                </right>
                <center>
                   <VBox>
@@ -78,32 +73,29 @@
                      <!-- Upcoming Task Card -->
                      <HBox styleClass="task-card" spacing="10" alignment="CENTER_LEFT"
                            maxHeight="60" prefHeight="60" maxWidth="500">
-                        <children>
-                           <!-- Task Icon -->
-                           <Label text="" style="-fx-font-size: 24px;"/>
+                        <!-- Task Icon -->
+                        <Label style="-fx-font-size: 24px;"/>
 
-                           <!-- Task Details -->
-                           <VBox spacing="4">
-                              <Label text="Complete Project Proposal"
-                                     style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
-                              <Label text="Due: Today 5:00 PM"
-                                     style="-fx-text-fill: #666; -fx-font-size: 12px;"/>
-                           </VBox>
+                        <!-- Task Details -->
+                        <VBox spacing="4">
+                           <Label text="Complete Project Proposal"
+                                  style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                           <Label text="Due: Today 5:00 PM"/>
+                        </VBox>
 
-                           <!-- Progress Indicator -->
-                           <ProgressBar progress="0.75"
-                                        style="-fx-accent: #4CAF50; -fx-pref-width: 150;"
-                                        HBox.hgrow="ALWAYS"/>
+                        <!-- Progress Indicator -->
+                        <ProgressBar progress="0.75"
+                                     style="-fx-accent: #4CAF50; -fx-pref-width: 150;"
+                                     HBox.hgrow="ALWAYS"/>
 
-                           <!-- Status Chip -->
-                           <Label text="URGENT"
-                                  style="-fx-background-color: #ffeb3b; -fx-background-radius: 12;
-                          -fx-padding: 4 8; -fx-font-size: 12px;"/>
-                        </children>
+                        <!-- Status Chip -->
+                        <Label text="URGENT"
+                               style="-fx-background-color: #ffeb3b; -fx-background-radius: 12;
+                       -fx-padding: 4 8; -fx-font-size: 12px;"/>
                      </HBox>
 
                      <!-- Spacer -->
-                     <Region prefHeight="10"/>
+                     <Region minHeight="10"/>
 
                      <!-- Filter Bar -->
                      <HBox spacing="15" styleClass="filter-bar">
@@ -116,24 +108,24 @@
                               </FXCollections>
                            </items>
                         </ComboBox>
-                        <CheckBox text="Show Completed" styleClass="modern-checkbox"/>
-                        <CheckBox text="High Priority Only" styleClass="modern-checkbox"/>
+                        <CheckBox text="Show Completed" />
+                        <CheckBox text="High Priority Only"/>
                         <Button text="Apply Filters" styleClass="secondary-button"/>
                      </HBox>
 
                      <!-- Spacer -->
-                     <Region prefHeight="10"/>
+                     <Region minHeight="10"/>
 
-                     <TableView styleClass="modern-table">
+                     <TableView styleClass="modern-table" fx:id="taskTable">
                         <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
                         <columns>
-                           <TableColumn minWidth="50" prefWidth="50" maxWidth="50.0" text="No"/>
-                           <TableColumn text="Title"/>
-                           <TableColumn text="Start Date"/>
-                           <TableColumn text="Due Date"/>
-                           <TableColumn text="Progress"/>
-                           <TableColumn text="Status"/>
-                           <TableColumn text="Actions"/>
+                           <TableColumn fx:id="numberColumn" minWidth="50" prefWidth="50" maxWidth="50.0" text="No"/>
+                           <TableColumn fx:id="titleColumn" text="Title"/>
+                           <TableColumn fx:id="startDateColumn" text="Start Date"/>
+                           <TableColumn fx:id="dueDateColumn" text="Due Date"/>
+                           <TableColumn fx:id="progressColumn" text="Progress"/>
+                           <TableColumn fx:id="statusColumn" text="Status"/>
+                           <TableColumn fx:id="priorityColumn" text="Priority"/>
                         </columns>
                      </TableView>
                   </VBox>

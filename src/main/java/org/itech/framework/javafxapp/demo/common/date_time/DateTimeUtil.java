@@ -49,4 +49,10 @@ public class DateTimeUtil {
     public static Date convertToDate(LocalDate localDate) {
         return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
+    public static LocalDate convertToLocalDate(Date date) {
+        if (date == null) return null;
+        return date.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+    }
 }

@@ -202,3 +202,106 @@
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
 }
+
+.font-awesome-icon{
+    -fx-font-family: FontAwesome;
+}
+
+.tag-control {
+    /* Light mode defaults */
+    -tag-default-bg: #e3f2fd;  /* Light blue */
+    -tag-default-border: #90caf9; /* Medium blue */
+    -tag-default-text: #1976d2; /* Dark blue */
+
+    -tag-overdue-bg: #ffebee;  /* Light red */
+    -tag-overdue-border: #ef9a9a; /* Medium red */
+    -tag-overdue-text: #c62828; /* Dark red */
+
+    -tag-today-bg: #e8f5e9;  /* Light green */
+    -tag-today-border: #a5d6a7; /* Medium green */
+    -tag-today-text: #2e7d32; /* Dark green */
+
+    -tag-week-bg: #e1f5fe;  /* Light sky blue */
+    -tag-week-border: #81d4fa; /* Medium sky blue */
+    -tag-week-text: #0277bd; /* Dark blue */
+
+    -tag-month-bg: #e0f2f1;  /* Light teal */
+    -tag-month-border: #80cbc4; /* Medium teal */
+    -tag-month-text: #00695c; /* Dark teal */
+
+    /* Base styles */
+    -fx-background-color: -tag-default-bg;
+    -fx-border-color: -tag-default-border;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 4px 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 1, 1);
+    -fx-cursor: hand;
+}
+
+.root.dark-mode .tag-control{
+    -tag-default-bg: #0d47a1;  /* Dark blue */
+    -tag-default-border: #1976d2; /* Medium blue */
+    -tag-default-text: #bbdefb; /* Light blue */
+
+    -tag-overdue-bg: #b71c1c;  /* Dark red */
+    -tag-overdue-border: #d32f2f; /* Medium red */
+    -tag-overdue-text: #ffcdd2; /* Light red */
+
+    -tag-today-bg: #1b5e20;  /* Dark green */
+    -tag-today-border: #388e3c; /* Medium green */
+    -tag-today-text: #c8e6c9; /* Light green */
+
+    -tag-week-bg: #01579b;  /* Dark sky blue */
+    -tag-week-border: #0288d1; /* Medium blue */
+    -tag-week-text: #b3e5fc; /* Light blue */
+
+    -tag-month-bg: #004d40;  /* Dark teal */
+    -tag-month-border: #00796b; /* Medium teal */
+    -tag-month-text: #b2dfdb; /* Light teal */
+}
+
+.tag-control .tag-label {
+    -fx-text-fill: -tag-default-text;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 15px 0 25px;
+}
+
+/* State variations */
+.tag-control.overdue {
+    -fx-background-color: -tag-overdue-bg;
+    -fx-border-color: -tag-overdue-border;
+}
+.tag-control.overdue .tag-label {
+    -fx-text-fill: -tag-overdue-text;
+}
+
+.tag-control.today {
+    -fx-background-color: -tag-today-bg;
+    -fx-border-color: -tag-today-border;
+}
+.tag-control.today .tag-label {
+    -fx-text-fill: -tag-today-text;
+}
+
+.tag-control.this-week {
+    -fx-background-color: -tag-week-bg;
+    -fx-border-color: -tag-week-border;
+}
+.tag-control.this-week .tag-label {
+    -fx-text-fill: -tag-week-text;
+}
+
+.tag-control.this-month {
+    -fx-background-color: -tag-month-bg;
+    -fx-border-color: -tag-month-border;
+}
+.tag-control.this-month .tag-label {
+    -fx-text-fill: -tag-month-text;
+}
+
+.button.active{
+    -fx-background-color: -fx-primary;
+}

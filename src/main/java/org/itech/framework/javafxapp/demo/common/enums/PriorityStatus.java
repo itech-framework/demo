@@ -34,4 +34,10 @@ public enum PriorityStatus {
                 .map(PriorityStatus::getDesc)
                 .orElse("Unknown");
     }
+    public static PriorityStatus getByCodeOrThrow(Integer code) {
+        return Arrays.stream(PriorityStatus.values())
+                .filter(priority -> code.equals(priority.getCode()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid priority code: " + code));
+    }
 }

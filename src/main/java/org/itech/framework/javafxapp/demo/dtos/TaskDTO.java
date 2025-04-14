@@ -1,5 +1,6 @@
 package org.itech.framework.javafxapp.demo.dtos;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -38,8 +39,16 @@ public class TaskDTO extends CommonDTO {
         setPriority(t.getPriority());
         setStatus(t.getStatus());
         setProgress(t.getProgress());
-        setStatusDesc(TaskStatus.getDescByCode(getStatus()));
-        setPriorityDesc(PriorityStatus.getDescByCode(getPriority()));
+        /*setStatusDesc(TaskStatus.getDescByCode(getStatus()));
+        setPriorityDesc(PriorityStatus.getDescByCode(getPriority()));*/
+        statusDesc.bind(Bindings.createStringBinding(() ->
+                        TaskStatus.getDescByCode(status.get()),
+                status
+        ));
+        priorityDesc.bind(Bindings.createStringBinding(() ->
+                        PriorityStatus.getDescByCode(priority.get()),
+                priority
+        ));
 
         if (getDueDate() != null) {
             setDueDateDesc(DateTimeUtil.dateToString(

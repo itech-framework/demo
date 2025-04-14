@@ -29,4 +29,11 @@ public enum TaskStatus {
                 .orElse("Unknown");
     }
 
+    public static TaskStatus getByCodeOrThrow(Integer code) {
+        return Arrays.stream(TaskStatus.values())
+                .filter(status -> code.equals(status.getCode()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid task code: " + code));
+    }
+
 }

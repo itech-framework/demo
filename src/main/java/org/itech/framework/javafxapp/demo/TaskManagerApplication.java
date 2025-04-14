@@ -16,12 +16,13 @@ import org.itech.framework.fx.java_fx.router.config.RouterConfig;
 import org.itech.framework.javafxapp.demo.controllers.dashboard.DashboardController;
 import org.itech.framework.javafxapp.demo.controllers.tasks.TaskViewController;
 
+import java.io.InputStream;
 import java.util.Objects;
 
 @ComponentScan(basePackage = "org.itech.framework.javafxapp.demo")
 @EnableJavaFx
 @EnableJPA
-public class HelloApplication extends ITechJavaFxApplication {
+public class TaskManagerApplication extends ITechJavaFxApplication {
 
     @Property(key = "flexi.app.name")
     private String appName;
@@ -53,16 +54,15 @@ public class HelloApplication extends ITechJavaFxApplication {
 
         router.getConfig().addStyleSheets(Objects.requireNonNull(getClass().getResource("/static/css/app.css")).toExternalForm());
 
-        router.registerRoute("dashboard", "dashboard/dashboard-view.fxml", DashboardController.class, "upToDown");
-        router.registerRoute("tasks", "tasks/tasks-view.fxml", TaskViewController.class, "upToDown");
+        router.registerRoute("dashboard", "/views/dashboard/dashboard-view.fxml", DashboardController.class, "upToDown");
+        router.registerRoute("tasks", "/views/tasks/tasks-view.fxml", TaskViewController.class, "upToDown");
     }
 
     @Override
     public void start(Stage stage) throws Exception {
         ownerStage = stage;
 
-
-        router.initialize(HelloApplication.class, stage);
+        router.initialize(TaskManagerApplication.class, stage);
         router.to("dashboard");
 
         stage.setTitle(appName);
@@ -76,14 +76,23 @@ public class HelloApplication extends ITechJavaFxApplication {
         stage.show();
     }
     public static void main(String[] args) throws Exception {
+        loadFont();
+        ITechJavaFxApplication.run(TaskManagerApplication.class,args);
+    }
+
+    private static void loadFont() {
         try {
-            Font.loadFont(
-                    Objects.requireNonNull(HelloApplication.class.getResource("/static/fonts/FontAwesome5Free-Solid-900.otf")).toExternalForm(),
-                    12
+            InputStream fontStream = TaskManagerApplication.class.getResourceAsStream(
+                    "/static/fonts/Poppins-Regular.ttf"
             );
+            if (fontStream != null) {
+                Font font = Font.loadFont(fontStream, 0);
+                System.out.println("Loaded font: " + font.getFamily());
+            } else {
+                System.err.println("Font file not found!");
+            }
         } catch (Exception e) {
-            System.err.println("Font loading failed: " + e.getMessage());
+            System.err.println("Font loading error: " + e.getMessage());
         }
-        ITechJavaFxApplication.run(HelloApplication.class,args);
     }
 }

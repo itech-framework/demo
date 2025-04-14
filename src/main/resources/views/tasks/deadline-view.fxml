@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import org.itech.framework.javafxapp.demo.common.components.TagControl?>
+<?import javafx.scene.control.Label?>
+<?import org.itech.framework.javafxapp.demo.utils.components.SvgIcon?>
+<?import javafx.scene.control.ScrollPane?>
+<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.itech.framework.javafxapp.demo.controllers.tasks.DeadlineViewController"
+            styleClass="content-body, primary-background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <ScrollPane hbarPolicy="NEVER" pannable="true"
+                cache="true"
+                cacheHint="SPEED" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox layoutX="178.0" layoutY="135.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <padding>
+                <Insets top="10.0" left="10.0" right="10.0" bottom="10.0"/>
+            </padding>
+            <VBox styleClass="overdue-task" spacing="5.0" HBox.hgrow="ALWAYS">
+                <TagControl text="Overdue *"
+                            styleClass="overdue"
+                            cornerRadius="10"/>
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" left="10" right="10" bottom="10"/>
+                    </padding>
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/angle-double-up.svg" iconSize="25"
+                                         styleClass="priority-icon, high"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/equals.svg" iconSize="25"
+                                         styleClass="priority-icon, medium"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/priority-critical-icon.svg" iconSize="25"
+                                         styleClass="priority-icon, critical"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/angle-double-down.svg" iconSize="25"
+                                         styleClass="priority-icon, low"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                </VBox>
+            </VBox>
+            <VBox styleClass="due-today-task" spacing="5.0" HBox.hgrow="ALWAYS">
+                <TagControl text="Due Today"
+                            styleClass="today"
+                            cornerRadius="10"/>
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" left="10" right="10" bottom="10"/>
+                    </padding>
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/angle-double-up.svg" iconSize="25"
+                                         styleClass="priority-icon, high"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/equals.svg" iconSize="25"
+                                         styleClass="priority-icon, medium"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/priority-critical-icon.svg" iconSize="25"
+                                         styleClass="priority-icon, critical"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/angle-double-down.svg" iconSize="25"
+                                         styleClass="priority-icon, low"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                </VBox>
+            </VBox>
+            <VBox styleClass="due-this-week" spacing="5.0" HBox.hgrow="ALWAYS">
+                <TagControl text="Due This Week"
+                            styleClass="this-week"
+                            cornerRadius="10"/>
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" left="10" right="10" bottom="10"/>
+                    </padding>
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/angle-double-up.svg" iconSize="25"
+                                         styleClass="priority-icon, high"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/equals.svg" iconSize="25"
+                                         styleClass="priority-icon, medium"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/priority-critical-icon.svg" iconSize="25"
+                                         styleClass="priority-icon, critical"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/angle-double-down.svg" iconSize="25"
+                                         styleClass="priority-icon, low"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                </VBox>
+            </VBox>
+            <VBox styleClass="due-this-month" spacing="5.0" HBox.hgrow="ALWAYS">
+                <TagControl text="Due This Month"
+                            styleClass="this-month"
+                            cornerRadius="10"/>
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" left="10" right="10" bottom="10"/>
+                    </padding>
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/angle-double-up.svg" iconSize="25"
+                                         styleClass="priority-icon, high"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/equals.svg" iconSize="25"
+                                         styleClass="priority-icon, medium"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/priority-critical-icon.svg" iconSize="25"
+                                         styleClass="priority-icon, critical"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                    <VBox spacing="5" styleClass="card, task">
+                        <HBox>
+                            <VBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="10" left="10" right="10" bottom="10"/>
+                                </padding>
+                                <SvgIcon svgFile="/static/svgs/angle-double-down.svg" iconSize="25"
+                                         styleClass="priority-icon, low"/>
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Complete Project Proposal"/>
+                                <Label text="due: 04/04/2025"/>
+                            </VBox>
+                        </HBox>
+                        <Label styleClass="task-description" text="Task descriptions......"/>
+                    </VBox>
+
+                </VBox>
+            </VBox>
+        </HBox>
+    </ScrollPane>
+</AnchorPane>

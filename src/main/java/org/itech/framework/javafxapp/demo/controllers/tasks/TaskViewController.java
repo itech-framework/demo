@@ -16,6 +16,7 @@ import org.itech.framework.fx.java_fx.router.Router;
 import org.itech.framework.fx.java_fx.router.core.Routable;
 import org.itech.framework.fx.java_fx.ui.dialog.AlertDialog;
 import org.itech.framework.fx.java_fx.utils.concurrent.BackgroundTaskService;
+import org.itech.framework.javafxapp.demo.TaskManagerApplication;
 
 @FxController
 public class TaskViewController implements Routable {
@@ -35,7 +36,7 @@ public class TaskViewController implements Routable {
     @InitMethod
     public void onInit(){
         Platform.runLater(()->{
-            handlePageChange(ListViewController.class, "/org/itech/framework/javafxapp/demo/tasks/list-view.fxml");
+            handlePageChange(ListViewController.class, "/views/tasks/list-view.fxml");
         });
     }
 
@@ -52,7 +53,7 @@ public class TaskViewController implements Routable {
     }
 
     public void handleBackBtnClicked(ActionEvent actionEvent) {
-        router.back();
+        router.pop();
     }
 
     @Override
@@ -79,13 +80,13 @@ public class TaskViewController implements Routable {
                 if(b.getStyleClass().contains("list")){
                     Platform.runLater(()->{
                         b.getStyleClass().add("active");
-                        handlePageChange(ListViewController.class, "/org/itech/framework/javafxapp/demo/tasks/list-view.fxml");
+                        handlePageChange(ListViewController.class, "/views/tasks/list-view.fxml");
                     });
                 }else
                 if(b.getStyleClass().contains("deadline")){
                     Platform.runLater(()->{
                         b.getStyleClass().add("active");
-                        handlePageChange(DeadlineViewController.class, "/org/itech/framework/javafxapp/demo/tasks/deadline-view.fxml");
+                        handlePageChange(DeadlineViewController.class, "/views/tasks/deadline-view.fxml");
                     });
                 }
             }
@@ -111,7 +112,9 @@ public class TaskViewController implements Routable {
                     showLoadingIndicator(false);
                     AlertDialog.builder()
                             .level(AlertDialog.Level.ERROR)
+                            .addOwner(TaskManagerApplication.ownerStage)
                             .title("Loading Error")
+                            .customFonts("Poppins")
                             .message("Failed to load page:\n" + ex.getMessage())
                             .build()
                             .show();

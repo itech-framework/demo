@@ -97,7 +97,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>org.itech.framework.javafxapp.demo.HelloApplication</mainClass>
+                    <mainClass>org.itech.framework.javafxapp.demo.TaskManagerApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

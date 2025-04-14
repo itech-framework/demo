@@ -1,3 +1,9 @@
+.root {
+    -fx-font-family: Poppins;
+    -fx-font-smoothing-type: lcd;
+    -fx-font-hinting: none;
+}
+
 .card{
     -fx-background-radius: 5px;
     -fx-padding: 8px;
@@ -5,8 +11,11 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0, 0, 1);
     -fx-cursor: hand;
     -fx-transition: all 0.2s;
-    -fx-background-color: -fx-primary;
     -fx-text-fill: -fx-text-color;
+}
+
+.card.today{
+    -fx-background-color: -fx-primary;
 }
 
 .card.fav{
@@ -20,6 +29,7 @@
 .card.note{
     -fx-background-color: #9EC6F3;
 }
+
 
 .menu-label{
     -fx-text-fill: white;
@@ -132,13 +142,6 @@
     -fx-background-color: -fx-success;
     -fx-text-fill: -fx-text-color;
     -fx-background-radius: 6;
-}
-
-/* Table Styling */
-.modern-table {
-    -fx-border-color: #e0e0e0;
-    -fx-border-radius: 6;
-    -fx-background-color: transparent;
 }
 
 
@@ -304,4 +307,66 @@
 
 .button.active{
     -fx-background-color: -fx-primary;
+}
+
+
+.card.task{
+    -fx-background-color: -fx-background;
+    -fx-border-color: derive(-fx-border-base, -30%);
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+
+.overdue-task .card.task{
+    -fx-border-color: derive(-fx-danger, -30%);
+}
+
+.due-today-task .card.task{
+    -fx-border-color: derive(-fx-success, -30%);
+}
+
+.due-this-week .card.task{
+    -fx-border-color: derive(-fx-primary, -30%);
+}
+
+.due-this-month .card.task{
+    -fx-border-color: derive(-fx-success, 30%);
+}
+
+
+.task-description {
+    -fx-line-spacing: -2px;
+    -fx-wrap-text: true;
+    -fx-alignment: top-left;
+    -fx-text-overrun: ellipsis;
+    -fx-max-height: 40px;
+}
+
+.priority-icon.high .svg-icon-path,
+ .priority-icon.critical .svg-icon-path{
+    -fx-fill: -fx-danger;
+}
+
+.priority-icon.high:hover .svg-icon-path,
+.priority-icon.critical:hover .svg-icon-path{
+    -fx-fill: derive(-fx-danger, 20%);
+    transition: -fx-fill 0.3s;
+}
+
+.priority-icon.medium .svg-icon-path {
+    -fx-fill: -fx-success;
+}
+
+.priority-icon.medium:hover .svg-icon-path {
+    -fx-fill: derive(-fx-success, 20%);
+    transition: -fx-fill 0.3s;
+}
+
+.priority-icon.low .svg-icon-path {
+    -fx-fill: -fx-primary;
+}
+
+.priority-icon.low:hover .svg-icon-path {
+    -fx-fill: derive(-fx-primary, 20%);
+    transition: -fx-fill 0.3s;
 }

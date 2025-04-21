@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import org.itech.framework.javafxapp.demo.utils.components.SvgIcon?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      spacing="5" styleClass="card, task">
+    <HBox>
+        <VBox alignment="CENTER" styleClass="icon-container">
+            <padding>
+                <Insets top="10" left="10" right="10" bottom="10"/>
+            </padding>
+            <SvgIcon fx:id="priorityIcon" iconSize="25" styleClass="priority-icon"/>
+        </VBox>
+        <VBox spacing="5">
+            <Label fx:id="titleLabel" styleClass="task-title"/>
+            <Label fx:id="dueDateLabel" styleClass="due-date"/>
+        </VBox>
+    </HBox>
+    <Label fx:id="descriptionLabel" styleClass="task-description"/>
+</VBox>

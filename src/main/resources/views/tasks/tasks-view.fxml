@@ -18,15 +18,8 @@
                AnchorPane.topAnchor="0.0">
 
       <top>
-         <VBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="50.0" spacing="10.0"
-                  BorderPane.alignment="CENTER">
-               <Button mnemonicParsing="false" onAction="#handleBackBtnClicked" text="Back" />
-               <Button mnemonicParsing="false" text="Create" />
-               <TextField minWidth="200" promptText="Search tasks..." />
-               <Button mnemonicParsing="false" text="Search" />
-            </HBox>
             <HBox fx:id="tagButtonContainer" prefHeight="30.0" spacing="5.0">
+               <Button mnemonicParsing="false" onAction="#handleBackBtnClicked" text="Back" />
                <Button onAction="#handleTagChanged" styleClass="tag-btn, list, active"
                        mnemonicParsing="false" text="List" />
                <Button onAction="#handleTagChanged" styleClass="tag-btn, deadline"
@@ -36,7 +29,6 @@
                <Button onAction="#handleTagChanged" styleClass="tag-btn, setting"
                        mnemonicParsing="false" text="Setting" />
             </HBox>
-         </VBox>
       </top>
 
       <padding>
@@ -50,7 +42,7 @@
             </BorderPane.margin>
 
             <!-- Original Content Container -->
-            <AnchorPane fx:id="contentContainer" prefHeight="200.0" prefWidth="200.0" />
+            <AnchorPane fx:id="contentContainer" />
 
             <!-- Loading Overlay (centered in contentContainer) -->
             <StackPane fx:id="loadingOverlay" visible="false">

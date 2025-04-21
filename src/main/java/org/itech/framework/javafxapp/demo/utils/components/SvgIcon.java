@@ -6,7 +6,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
-import org.itech.framework.fx.java_fx.utils.SVGUtil;
+import io.github.itech_framework.java_fx.utils.SVGUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +26,6 @@ public class SvgIcon extends StackPane {
     private void initialize() {
         svgPath.getStyleClass().add("svg-icon-path");
         getChildren().add(svgPath);
-        /*svgPath.fillProperty().bind(color);*/
 
         // Size bindings
         prefWidthProperty().bind(iconSize);
@@ -42,8 +41,6 @@ public class SvgIcon extends StackPane {
                 loadSvgFile(newVal);
             }
         });
-
-
     }
 
     // FXML accessible properties
@@ -59,18 +56,6 @@ public class SvgIcon extends StackPane {
     public DoubleProperty iconSizeProperty() {
         return iconSize;
     }
-
-    /*public void setColor(Color color) {
-        this.color.set(color);
-    }
-
-    public Color getColor() {
-        return color.get();
-    }
-
-    public ObjectProperty<Color> colorProperty() {
-        return color;
-    }*/
 
     public void setSvgFile(String path) {
         svgFilePath.set(path);

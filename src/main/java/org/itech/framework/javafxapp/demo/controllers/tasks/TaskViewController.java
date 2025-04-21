@@ -8,14 +8,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import org.itech.framework.fx.core.annotations.methods.InitMethod;
-import org.itech.framework.fx.core.annotations.reactives.Rx;
-import org.itech.framework.fx.java_fx.annotations.FxController;
-import org.itech.framework.fx.java_fx.helpers.FxControllerLoader;
-import org.itech.framework.fx.java_fx.router.Router;
-import org.itech.framework.fx.java_fx.router.core.Routable;
-import org.itech.framework.fx.java_fx.ui.dialog.AlertDialog;
-import org.itech.framework.fx.java_fx.utils.concurrent.BackgroundTaskService;
+import io.github.itech_framework.core.annotations.methods.OnInit;
+import io.github.itech_framework.core.annotations.reactives.Rx;
+import io.github.itech_framework.java_fx.annotations.FxController;
+import io.github.itech_framework.java_fx.loader.FxControllerLoader;
+import io.github.itech_framework.java_fx.router.Router;
+import io.github.itech_framework.java_fx.router.core.Routable;
+import io.github.itech_framework.java_fx.ui.dialog.AlertDialog;
+import io.github.itech_framework.java_fx.utils.concurrent.BackgroundTaskService;
 import org.itech.framework.javafxapp.demo.TaskManagerApplication;
 
 @FxController
@@ -33,7 +33,7 @@ public class TaskViewController implements Routable {
     @Rx
     Router router;
 
-    @InitMethod
+    @OnInit
     public void onInit(){
         Platform.runLater(()->{
             handlePageChange(ListViewController.class, "/views/tasks/list-view.fxml");

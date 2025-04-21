@@ -1,7 +1,7 @@
 .root {
     -fx-font-family: Poppins;
-    -fx-font-smoothing-type: lcd;
     -fx-font-hinting: none;
+    -fx-font-smoothing-type: gray;
 }
 
 .card{
@@ -310,27 +310,77 @@
 }
 
 
+/* Remove all ListView styling */
+.list-view.task-list {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* Full override for all cell states */
+.list-view.task-list .list-cell {
+    -fx-background-color: transparent !important;
+    -fx-background-insets: 0 !important;
+}
+
+.list-view.task-list .list-cell:filled {
+    -fx-background-color: transparent !important;
+}
+
+.list-view.task-list .list-cell:filled:selected {
+    -fx-background-color: transparent !important;
+}
+
+.list-view.task-list .list-cell:filled:hover {
+    -fx-background-color: transparent !important;
+}
+
+.list-view.task-list .list-cell:filled:hover,
+.list-view.task-list .list-cell:filled:selected,
+.list-view.task-list .list-cell:filled:focused {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* Remove scrollbar styling (optional) */
+/*.list-view.task-list .scroll-bar {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+}*/
+
+/* Remove internal ListView padding */
+.list-view.task-list > .virtual-flow {
+    -fx-border-width: 0;
+    -fx-background-color: transparent;
+}
+
 .card.task{
+-fx-min-width: 280px;
+    -fx-pref-width: 100%;
+    -fx-max-width: 100%;
     -fx-background-color: -fx-background;
     -fx-border-color: derive(-fx-border-base, -30%);
     -fx-background-radius: 5px;
     -fx-border-radius: 5px;
+    -fx-padding: 5px;
 }
 
-.overdue-task .card.task{
-    -fx-border-color: derive(-fx-danger, -30%);
+/* Overdue section cards - FIXED SELECTOR */
+.overdue-task .list-view.task-list .list-cell .card.task {
+    -fx-border-color: derive(-fx-danger, -30%) !important;
+    -fx-background-color: -fx-background;
 }
 
-.due-today-task .card.task{
-    -fx-border-color: derive(-fx-success, -30%);
+/* Other statuses */
+.due-today-task .list-view.task-list .list-cell .card.task {
+    -fx-border-color: derive(-fx-success, -30%) !important;
 }
 
-.due-this-week .card.task{
-    -fx-border-color: derive(-fx-primary, -30%);
+.due-this-week .list-view.task-list .list-cell .card.task {
+    -fx-border-color: derive(-fx-primary, -30%) !important;
 }
 
-.due-this-month .card.task{
-    -fx-border-color: derive(-fx-success, 30%);
+.due-this-month .list-view.task-list .list-cell .card.task {
+    -fx-border-color: derive(-fx-success, 30%) !important;
 }
 
 
@@ -340,6 +390,7 @@
     -fx-alignment: top-left;
     -fx-text-overrun: ellipsis;
     -fx-max-height: 40px;
+    /*-fx-max-width: 270px;*/
 }
 
 .priority-icon.high .svg-icon-path,
@@ -369,4 +420,69 @@
 .priority-icon.low:hover .svg-icon-path {
     -fx-fill: derive(-fx-primary, 20%);
     transition: -fx-fill 0.3s;
+}
+
+/* Add to existing CSS */
+.task-list-cell {
+    -fx-background-color: transparent !important;
+    -fx-border-width: 0 !important;
+    -fx-background-insets: 0 !important;
+    -fx-padding: 0 0 4px 0 !important;
+}
+
+.task-list-cell:filled:selected {
+    -fx-background-color: transparent !important;
+}
+
+.task-list-cell:filled:hover {
+    -fx-background-color: transparent !important;
+    -fx-cursor: hand;
+}
+
+/* Disable horizontal scrolling */
+.list-view.task-list .scroll-bar:horizontal {
+    -fx-pref-height: 0;
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}
+/*.list-view.task-list .scroll-bar:vertical {
+    -fx-pref-width: 0;
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}*/
+
+/* Optional: Ensure content doesn't overflow horizontally */
+.list-view.task-list .list-cell {
+    -fx-max-width: 100%;
+    -fx-wrap-text: true; /* For text content */
+}
+
+
+.welcome-container {
+    -fx-background-color: -fx-background;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.welcome-title {
+    -fx-text-fill: -fx-text-color;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+}
+
+.welcome-text {
+    -fx-text-fill: -fx-text-color;
+    -fx-font-size: 14px;
+    -fx-alignment: center;
+}
+
+.feature-item {
+    -fx-text-fill: -fx-text-color;
+    -fx-font-size: 13px;
+    -fx-graphic-text-gap: 8px;
+}
+
+.welcome-separator {
+    -fx-padding: 10 0;
+    -fx-pref-width: 300;
 }

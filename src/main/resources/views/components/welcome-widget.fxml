@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox fx:id="root" alignment="CENTER" spacing="20"
+      styleClass="welcome-container" xmlns="http://javafx.com/javafx/11"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <padding>
+        <Insets top="30" right="40" bottom="30" left="40"/>
+    </padding>
+
+    <!-- App Logo -->
+    <!--<ImageView fitWidth="120" fitHeight="120" preserveRatio="true">
+        <image>
+            <Image url="/images/app-logo.png"/>
+        </image>
+    </ImageView>-->
+
+    <!-- Welcome Title -->
+    <Label fx:id="welcomeTitle" styleClass="welcome-title"/>
+
+    <!-- Introduction Text -->
+    <Label wrapText="true" styleClass="welcome-text" maxWidth="400">
+        <text>
+            Manage your tasks efficiently with our powerful features:
+        </text>
+    </Label>
+
+    <!-- Feature List -->
+    <VBox alignment="CENTER_LEFT" spacing="8">
+        <Label styleClass="feature-item" text="✓ Smart task organization with categories"/>
+        <Label styleClass="feature-item" text="✓ Priority-based task sorting"/>
+        <Label styleClass="feature-item" text="✓ Collaborative team workspaces"/>
+        <Label styleClass="feature-item" text="✓ Deadline reminders &amp; notifications"/>
+        <Label styleClass="feature-item" text="✓ Cross-platform synchronization"/>
+    </VBox>
+
+    <Separator styleClass="welcome-separator"/>
+
+    <!-- Getting Started -->
+    <Label wrapText="true" styleClass="welcome-text" maxWidth="400">
+        <text>
+            Let's help you stay organized and productive!
+            Start by creating your first task or exploring the dashboard.
+        </text>
+    </Label>
+</VBox>

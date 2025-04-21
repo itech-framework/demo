@@ -2,21 +2,28 @@ package org.itech.framework.javafxapp.demo.controllers.dashboard;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.itech_framework.core.annotations.methods.PreDestroy;
+import io.github.itech_framework.java_fx.loader.FxComponentLoader;
+import io.github.itech_framework.java_fx.ui.dialog.ModalDialog;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import org.itech.framework.fx.core.annotations.methods.InitMethod;
-import org.itech.framework.fx.core.annotations.properties.Property;
-import org.itech.framework.fx.core.annotations.reactives.Rx;
-import org.itech.framework.fx.core.annotations.storage.DataStorage;
-import org.itech.framework.fx.core.utils.DataStorageUtil;
-import org.itech.framework.fx.java_fx.annotations.FxController;
-import org.itech.framework.fx.java_fx.router.Router;
-import org.itech.framework.fx.java_fx.router.core.Routable;
+import io.github.itech_framework.core.annotations.methods.OnInit;
+import io.github.itech_framework.core.annotations.properties.Property;
+import io.github.itech_framework.core.annotations.reactives.Rx;
+import io.github.itech_framework.core.annotations.storage.DataStorage;
+import io.github.itech_framework.core.utils.DataStorageUtil;
+import io.github.itech_framework.java_fx.annotations.FxController;
+import io.github.itech_framework.java_fx.router.Router;
+import io.github.itech_framework.java_fx.router.core.Routable;
 import javafx.scene.input.MouseEvent;
+import org.itech.framework.javafxapp.demo.TaskManagerApplication;
+import org.itech.framework.javafxapp.demo.utils.components.WelcomeWidget;
+
+import java.util.Objects;
 
 @FxController
 public class DashboardController implements Routable {
@@ -38,7 +45,13 @@ public class DashboardController implements Routable {
     @DataStorage(key = "isDarkMode")
     private boolean isDarkMode;
 
-    @InitMethod
+    @DataStorage(key = "doNotShowWelcomeDialog")
+    private boolean doNotShowWelcomeDialog;
+
+    @DataStorage(key = "isAlreadyShowWelcomeDialog")
+    private boolean isAlreadyShowWelcomeDialog;
+
+    @OnInit
     public void initializeData(){
         title.setText(appName);
         Platform.runLater(()->{
@@ -48,6 +61,19 @@ public class DashboardController implements Routable {
                 DataStorageUtil.save("isDarkMode", isDarkMode);
                 router.refresh();
             });
+            if(!doNotShowWelcomeDialog && !isAlreadyShowWelcomeDialog){
+                WelcomeWidget welcomeWidget = FxComponentLoader.load(WelcomeWidget.class, "Welcome to " + appName);
+                DataStorageUtil.save("isAlreadyShowWelcomeDialog", true);
+                ModalDialog.builder().addOwner(TaskManagerApplication.ownerStage)
+                        .customFonts("Poppins")
+                        .addCloseButton("Close")
+                        .addActionButton("Do Not Show Again", ()->{
+                            DataStorageUtil.save("doNotShowWelcomeDialog", true);
+                        })
+                        .addContent(welcomeWidget.getRoot())
+                        .build().show();
+
+            }
         });
     }
 
@@ -75,5 +101,10 @@ public class DashboardController implements Routable {
         } else if (styleClass.contains("note")) {
             System.out.println("Note Page redirect");
         }
+    }
+
+    @PreDestroy
+    protected void beforeDestroyTheController(){
+        DataStorageUtil.save("isAlreadyShowWelcomeDialog", false);
     }
 }

@@ -1,17 +1,19 @@
 package org.itech.framework.javafxapp.demo.services;
 
-import org.itech.framework.fx.core.annotations.components.levels.BusinessLogic;
-import org.itech.framework.fx.core.annotations.reactives.Rx;
-import org.itech.framework.fx.core.utils.validator.CommonValidator;
-import org.itech.framework.javafxapp.demo.data_access.entities.Task;
-import org.itech.framework.javafxapp.demo.data_access.repository.TaskRepository;
-import org.itech.framework.javafxapp.demo.dtos.CommonDTO;
-import org.itech.framework.javafxapp.demo.dtos.TaskDTO;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import io.github.itech_framework.core.annotations.components.levels.BusinessLogic;
+import io.github.itech_framework.core.annotations.reactives.Rx;
+import io.github.itech_framework.core.utils.validator.CommonValidator;
+import org.itech.framework.javafxapp.demo.common.enums.DueStatus;
+import org.itech.framework.javafxapp.demo.common.enums.TaskStatus;
+import org.itech.framework.javafxapp.demo.data_access.entities.Task;
+import org.itech.framework.javafxapp.demo.data_access.repository.TaskRepository;
+import org.itech.framework.javafxapp.demo.dtos.TaskDTO;
+import org.itech.framework.javafxapp.demo.dtos.TaskFilterDTO;
 
 @BusinessLogic
 public class TaskServiceImpl implements TaskService{
@@ -53,6 +55,7 @@ public class TaskServiceImpl implements TaskService{
     public List<TaskDTO> getAllTask() {
         List<Task> tasks = this.taskRepository.findAll();
         if(CommonValidator.validList(tasks)){
+            analyzeOverDueTasks(tasks);
             return tasks.stream().map(TaskDTO::new).toList();
         }
         return Collections.emptyList();
@@ -66,6 +69,39 @@ public class TaskServiceImpl implements TaskService{
             return true;
         }else{
             throw new Exception("No reference found!");
+        }
+    }
+
+	@Override
+	public List<TaskDTO> getTasksByDueStatus(DueStatus status, Integer limit) {
+		List<Task> tasks = this.taskRepository.findTaskByDueStatus(status, limit);
+		if(CommonValidator.validList(tasks)) {
+            analyzeOverDueTasks(tasks);
+			return tasks.stream().map(TaskDTO::new).toList();
+		}
+		return Collections.emptyList();
+	}
+
+    @Override
+    public List<TaskDTO> getTasksByFilter(TaskFilterDTO dto) {
+        List<Task> tasks = this.taskRepository.getTasksByFilter(dto);
+        if(CommonValidator.validList(tasks)){
+            return tasks.stream().map(TaskDTO::new).toList();
+        }
+        return List.of();
+    }
+
+    private void analyzeOverDueTasks(List<Task> tasks){
+        for(Task task: tasks){
+            if(!TaskStatus.COMPLETE.getCode().equals(task.getStatus())
+                && !TaskStatus.CANCEL.getCode().equals(task.getStatus())){
+                Date current = new Date();
+                Date dueDate = task.getDueDate();
+                if(dueDate != null && dueDate.before(current)){
+                    task.setStatus(TaskStatus.OVER_DUE.getCode());
+                    this.taskRepository.save(task);
+                }
+            }
         }
     }
 }

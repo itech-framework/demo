@@ -1,5 +1,6 @@
 package org.itech.framework.javafxapp.demo;
 
+import io.github.itech_framework.core.annotations.methods.PreDestroy;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
@@ -7,12 +8,12 @@ import javafx.application.Platform;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.itech.framework.fx.core.annotations.ComponentScan;
-import org.itech.framework.fx.core.annotations.jfx.EnableJavaFx;
-import org.itech.framework.fx.core.annotations.persistences.EnableJPA;
-import org.itech.framework.fx.core.annotations.properties.Property;
-import org.itech.framework.fx.java_fx.ITechJavaFxApplication;
-import org.itech.framework.fx.java_fx.router.config.RouterConfig;
+import io.github.itech_framework.core.annotations.ComponentScan;
+import io.github.itech_framework.core.annotations.jfx.EnableJavaFx;
+import io.github.itech_framework.core.annotations.persistences.EnableJPA;
+import io.github.itech_framework.core.annotations.properties.Property;
+import io.github.itech_framework.java_fx.ITechJavaFxApplication;
+import io.github.itech_framework.java_fx.router.config.RouterConfig;
 import org.itech.framework.javafxapp.demo.controllers.dashboard.DashboardController;
 import org.itech.framework.javafxapp.demo.controllers.tasks.TaskViewController;
 
@@ -75,8 +76,10 @@ public class TaskManagerApplication extends ITechJavaFxApplication {
         stage.setMaximized(true);
         stage.show();
     }
+    
     public static void main(String[] args) throws Exception {
         loadFont();
+        System.setProperty("prism.lcdtext", "false");
         ITechJavaFxApplication.run(TaskManagerApplication.class,args);
     }
 
@@ -95,4 +98,5 @@ public class TaskManagerApplication extends ITechJavaFxApplication {
             System.err.println("Font loading error: " + e.getMessage());
         }
     }
+
 }

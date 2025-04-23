@@ -2,15 +2,18 @@ package org.itech.framework.javafxapp.demo.controllers.tasks;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.itech_framework.java_fx.utils.concurrent.BackgroundTaskService;
+import io.github.itech_framework.java_fx.utils.node.StyleUtils;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import io.github.itech_framework.core.annotations.methods.OnInit;
@@ -21,6 +24,7 @@ import io.github.itech_framework.java_fx.input.validations.FormValidator;
 import io.github.itech_framework.java_fx.input.validations.validator.ValidationResult;
 import io.github.itech_framework.java_fx.ui.dialog.AlertDialog;
 import io.github.itech_framework.java_fx.utils.SVGUtil;
+import javafx.scene.text.TextAlignment;
 import org.itech.framework.javafxapp.demo.TaskManagerApplication;
 import org.itech.framework.javafxapp.demo.common.date_time.DateTimeUtil;
 import org.itech.framework.javafxapp.demo.common.enums.EnumObject;
@@ -31,10 +35,13 @@ import org.itech.framework.javafxapp.demo.dtos.TaskDTO;
 import org.itech.framework.javafxapp.demo.dtos.TaskFilterDTO;
 import org.itech.framework.javafxapp.demo.services.TaskService;
 import org.itech.framework.javafxapp.demo.utils.components.DateTimePicker;
+import org.itech.framework.javafxapp.demo.utils.notifications.NotificationScheduler;
 
 @FxController
 public class ListViewController {
-	@FXML
+    @FXML
+    private DatePicker selectedDate;
+    @FXML
 	private TextField searchTaskTitle;
 	@FXML
 	private ComboBox<EnumObject> sortByComboBox;
@@ -83,6 +90,9 @@ public class ListViewController {
 	@Rx
 	TaskService taskService;
 
+	@Rx
+	NotificationScheduler notificationScheduler;
+
 	private final FormValidator createTaskValidator = new FormValidator();
 
 	private final BooleanProperty isEditing = new SimpleBooleanProperty(false);
@@ -94,7 +104,7 @@ public class ListViewController {
 	@OnInit
 	public void init() {
 		Platform.runLater(() -> {
-
+            selectedDate.setValue(LocalDate.now());
 			EnumObject unselected = new EnumObject(0, "-- Select One --");
 			sortByComboBox.getItems().add(unselected);
 			sortByComboBox.getItems().addAll(SortBy.getAll());
@@ -105,10 +115,11 @@ public class ListViewController {
 
 			priorityComboBox.getItems().addAll(PriorityStatus.getAll());
 			statusComboBox.getItems().addAll(TaskStatus.getAll());
+
 			configureTableColumns();
 			setupTableContextMenu();
-			taskTable.getItems().addAll(taskService.getAllTask());
 			applyFormValidator();
+            fetchTask();
 			isEditing.addListener((obs, oldVal, newVal) -> {
 				addTaskBtn.setText(newVal ? "Update Task" : "Add Task");
 				// update validation
@@ -123,7 +134,12 @@ public class ListViewController {
 
 	}
 
-	private void applyFormValidator() {
+    private void fetchTask() {
+        filterDTO.setDate(LocalDate.now());
+        executeFilterService(filterDTO);
+    }
+
+    private void applyFormValidator() {
 		createTaskValidator.addRequiredField(taskTitleText)
 		.addRequiredField(description)
 		.addCustomRule(()->{
@@ -147,6 +163,7 @@ public class ListViewController {
 
 	// In your controller's init method
 	private void configureTableColumns() {
+
 		numberColumn.setCellFactory(col -> new TableCell<TaskDTO, Integer>() {
 			@Override
 			protected void updateItem(Integer item, boolean empty) {
@@ -159,8 +176,25 @@ public class ListViewController {
 			}
 		});
 
+
 		// Title column
 		titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+		titleColumn.setCellFactory(col -> new TableCell<TaskDTO, String>() {
+			@Override
+			protected void updateItem(String title, boolean empty) {
+				super.updateItem(title, empty);
+
+				setText(null);
+				setGraphic(null);
+				getStyleClass().add("text-left");
+				if (!empty && title != null) {
+					System.out.println("title: " + title);
+					setText(title);
+					setAlignment(Pos.CENTER_LEFT);
+					setTextAlignment(TextAlignment.LEFT);
+				}
+			}
+		});
 
 		// Start Date
 		startDateColumn.setCellValueFactory(cellData -> cellData.getValue().startDateDescProperty());
@@ -330,10 +364,25 @@ public class ListViewController {
 					Platform.runLater(() -> {
 						if (isUpdateMode) {
 							int index = taskTable.getItems().indexOf(selectedTask);
+
+							// Cancel notifications for old task
+							notificationScheduler.cancelNotifications(selectedTask);
+
+							if(!TaskStatus.COMPLETE.getCode().equals(saved.getStatus())
+							&& !TaskStatus.CANCEL.getCode().equals(saved.getStatus())){
+								// Schedule notifications for updated task
+								notificationScheduler.scheduleNotifications(saved);
+
+								// Add listener for future changes
+								saved.dueDateProperty().addListener((obs, oldVal, newVal) -> {
+									notificationScheduler.scheduleNotifications(saved);
+								});
+							}
 							if (CommonValidator.validInteger(index)) {
 								taskTable.getItems().set(index, saved);
 							}
 						} else {
+							notificationScheduler.scheduleNotifications(saved);
 							taskTable.getItems().add(saved);
 						}
 
@@ -403,8 +452,14 @@ public class ListViewController {
 	}
 
 	private void applyFilters() {
-
 		filterDTO.setTitle(searchTaskTitle.getText());
+
+        if(CommonValidator.isValidObject(selectedDate.getValue())){
+            filterDTO.setDate(selectedDate.getValue());
+        }else{
+            selectedDate.setValue(LocalDate.now());
+            filterDTO.setDate(selectedDate.getValue());
+        }
 
 		if(CommonValidator.isValidObject(sortByComboBox.getValue())){
 			filterDTO.setSortBy(sortByComboBox.getValue().code());

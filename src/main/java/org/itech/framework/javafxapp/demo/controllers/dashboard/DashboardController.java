@@ -3,8 +3,11 @@ package org.itech.framework.javafxapp.demo.controllers.dashboard;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.itech_framework.core.annotations.methods.PreDestroy;
+import io.github.itech_framework.core.utils.validator.CommonValidator;
 import io.github.itech_framework.java_fx.loader.FxComponentLoader;
+import io.github.itech_framework.java_fx.ui.dialog.AlertDialog;
 import io.github.itech_framework.java_fx.ui.dialog.ModalDialog;
+import io.github.itech_framework.java_fx.utils.concurrent.BackgroundTaskService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,7 +24,10 @@ import io.github.itech_framework.java_fx.router.Router;
 import io.github.itech_framework.java_fx.router.core.Routable;
 import javafx.scene.input.MouseEvent;
 import org.itech.framework.javafxapp.demo.TaskManagerApplication;
+import org.itech.framework.javafxapp.demo.dtos.TaskDTO;
+import org.itech.framework.javafxapp.demo.services.TaskService;
 import org.itech.framework.javafxapp.demo.utils.components.WelcomeWidget;
+import org.itech.framework.javafxapp.demo.utils.notifications.NotificationScheduler;
 
 import java.util.Objects;
 
@@ -41,6 +47,12 @@ public class DashboardController implements Routable {
 
     @Rx
     Router router;
+
+    @Rx
+    NotificationScheduler notificationScheduler;
+
+    @Rx
+    TaskService taskService;
 
     @DataStorage(key = "isDarkMode")
     private boolean isDarkMode;
@@ -75,6 +87,27 @@ public class DashboardController implements Routable {
 
             }
         });
+        // task scheduler
+        BackgroundTaskService.getInstance().executeTask(
+                ()-> taskService.getAllFutureSchedule(),
+                (data)->{
+                    if(CommonValidator.validList(data)){
+                        for(TaskDTO task: data){
+                            notificationScheduler.cancelNotifications(task);
+                            notificationScheduler.scheduleNotifications(task);
+                        }
+                    }
+                },
+                (error)->{
+                    Platform.runLater(()->{
+                        AlertDialog.builder().addOwner(TaskManagerApplication.ownerStage)
+                                .level(AlertDialog.Level.ERROR)
+                                .title("Notification scheduler failed")
+                                .message(error.getMessage())
+                                .build().show();
+                    });
+                }
+        );
     }
 
     @FXML

@@ -486,3 +486,9 @@
     -fx-padding: 10 0;
     -fx-pref-width: 300;
 }
+.table-column .table-row-cell.text-left{
+    -fx-alignment: CENTER_LEFT !important;
+}
+.table-cell.text-left {
+    -fx-alignment: center-left;
+}

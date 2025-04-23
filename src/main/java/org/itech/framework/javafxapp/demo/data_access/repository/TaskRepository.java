@@ -2,6 +2,7 @@ package org.itech.framework.javafxapp.demo.data_access.repository;
 
 import java.time.*;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Date;
 import java.util.List;
 
 import io.github.itech_framework.core.utils.validator.CommonValidator;
@@ -90,8 +91,12 @@ public class TaskRepository extends SimpleFlexiJpaRepository<Task, Long> {
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT * FROM tasks WHERE 1=1 ");
 
+		if(CommonValidator.isValidObject(dto.getDate())){
+			builder.append("AND DATE(due_date) = :date ");
+			params.add("date", dto.getDate());
+		}
+
 		if(CommonValidator.validString(dto.getTitle())){
-			System.out.println("Title: " + dto.getTitle()+".");
 			builder.append("AND title LIKE :title ");
 			params.add("title", "%"+dto.getTitle()+"%");
 		}
@@ -119,5 +124,15 @@ public class TaskRepository extends SimpleFlexiJpaRepository<Task, Long> {
 		}
 
 		return builder.toString();
+	}
+
+	public List<Task> findAllFutureTasks(){
+		QueryParameters parameters = new QueryParameters();
+		String query = "SELECT t FROM Task t WHERE t.dueDate >= :date AND t.status != :status AND t.status != :cancelStatus ORDER BY t.dueDate ASC";
+		parameters.add("date", new Date());
+		parameters.add("status", TaskStatus.COMPLETE.getCode());
+		parameters.add("cancelStatus", TaskStatus.CANCEL.getCode());
+
+		return findBy(query, parameters);
 	}
 }

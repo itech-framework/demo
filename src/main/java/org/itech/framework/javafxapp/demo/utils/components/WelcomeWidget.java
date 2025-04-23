@@ -33,5 +33,4 @@ public class WelcomeWidget{
     private void onInit(){
         welcomeTitle.setText(title);
     }
-
 }

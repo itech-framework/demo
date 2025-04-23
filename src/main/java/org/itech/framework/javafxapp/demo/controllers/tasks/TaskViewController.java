@@ -88,6 +88,11 @@ public class TaskViewController implements Routable {
                         b.getStyleClass().add("active");
                         handlePageChange(DeadlineViewController.class, "/views/tasks/deadline-view.fxml");
                     });
+                }else if(b.getStyleClass().contains("teams")){
+                    Platform.runLater(()->{
+                        b.getStyleClass().add("active");
+                        handlePageChange(TeamViewController.class, "/views/tasks/team-view.fxml");
+                    });
                 }
             }
         }

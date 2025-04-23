@@ -91,6 +91,15 @@ public class TaskServiceImpl implements TaskService{
         return List.of();
     }
 
+    @Override
+    public List<TaskDTO> getAllFutureSchedule() {
+        List<Task> tasks = this.taskRepository.findAllFutureTasks();
+        if(CommonValidator.validList(tasks)){
+            return tasks.stream().map(TaskDTO::new).toList();
+        }
+        return List.of();
+    }
+
     private void analyzeOverDueTasks(List<Task> tasks){
         for(Task task: tasks){
             if(!TaskStatus.COMPLETE.getCode().equals(task.getStatus())

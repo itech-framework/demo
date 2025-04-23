@@ -98,7 +98,8 @@
 
             <!-- Filter Bar -->
             <HBox spacing="15" styleClass="filter-bar">
-                <TextField fx:id="searchTaskTitle" minWidth="120" promptText="Search tasks..." />
+                <TextField visible="false" managed="false" fx:id="searchTaskTitle" minWidth="120" promptText="Search tasks..." />
+                <DatePicker fx:id="selectedDate" promptText="Date"/>
                 <ComboBox fx:id="sortByComboBox" promptText="Sort By" styleClass="modern-combo">
                 </ComboBox>
                 <ComboBox fx:id="priorityFilterComboBox" promptText="Priority" styleClass="modern-combo"/>

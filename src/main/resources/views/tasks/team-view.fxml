@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.itech.framework.javafxapp.demo.controllers.tasks.TeamViewController"
+            styleClass="content-body, primary-background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <StackPane fx:id="loadingOverlay" visible="false"
+               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER" spacing="10">
+            <ProgressIndicator fx:id="loadingSpinner"
+                               prefWidth="40" prefHeight="40"/>
+            <Label fx:id="loadingText" text="Loading..." />
+        </VBox>
+    </StackPane>
+</AnchorPane>

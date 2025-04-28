@@ -11,9 +11,12 @@ import java.util.concurrent.*;
 import io.github.itech_framework.core.annotations.components.Component;
 import io.github.itech_framework.core.annotations.constructor.DefaultConstructor;
 import io.github.itech_framework.core.annotations.methods.PreDestroy;
+import io.github.itech_framework.core.utils.validator.CommonValidator;
 import io.github.itech_framework.java_fx.ui.dialog.AlertDialog;
 import javafx.application.Platform;
-import org.controlsfx.control.Notifications;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itech.framework.javafxapp.demo.TaskManagerApplication;
 import org.itech.framework.javafxapp.demo.common.date_time.DateTimeUtil;
 import org.itech.framework.javafxapp.demo.dtos.TaskDTO;
@@ -23,12 +26,15 @@ import javax.swing.*;
 @Component
 public class NotificationScheduler {
     private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-    private final Map<TaskDTO, List<ScheduledFuture<?>>> taskSchedules = new HashMap<>();
+    private final Map<Long, List<ScheduledFuture<?>>> taskSchedules = new HashMap<>();
+
+    private final Logger logger = LogManager.getLogger(getClass());
 
     @DefaultConstructor
     public NotificationScheduler() {}
 
     public void scheduleNotifications(TaskDTO task) {
+        if(!CommonValidator.validLong(task.getId())) return;
         LocalDateTime dueDate = DateTimeUtil.convertToLocalDateTime(task.getDueDate());
         if (dueDate == null) return;
 
@@ -42,7 +48,7 @@ public class NotificationScheduler {
 
         // Remove null futures (for notifications that are in the past)
         futures.removeIf(Objects::isNull);
-        taskSchedules.put(task, futures);
+        taskSchedules.put(task.getId(), futures);
     }
 
     private ScheduledFuture<?> scheduleNotification(LocalDateTime dueDate,
@@ -63,14 +69,15 @@ public class NotificationScheduler {
     }
 
     public void cancelNotifications(TaskDTO task) {
-        List<ScheduledFuture<?>> futures = taskSchedules.get(task);
+        List<ScheduledFuture<?>> futures = taskSchedules.get(task.getId());
+
         if (futures != null) {
             futures.forEach(future -> {
                 if (future != null && !future.isDone()) {
                     future.cancel(false);
                 }
             });
-            taskSchedules.remove(task);
+            taskSchedules.remove(task.getId());
         }
     }
 
@@ -117,8 +124,8 @@ public class NotificationScheduler {
                             tray.remove(trayIcon);
                         }
                     }, 5000);
-                } catch (AWTException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    logger.error("Error on displaying notification: {}", ExceptionUtils.getStackTrace(e));
                 }
             });
         } else{
@@ -139,7 +146,9 @@ public class NotificationScheduler {
     @PreDestroy
     public void shutdown() {
         taskSchedules.values().forEach(futures ->
-                futures.forEach(future -> future.cancel(false))
+                futures.forEach(future -> {
+                    future.cancel(false);
+                })
         );
         taskSchedules.clear();
         executor.shutdown();

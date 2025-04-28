@@ -24,10 +24,10 @@
                        mnemonicParsing="false" text="List" />
                <Button onAction="#handleTagChanged" styleClass="tag-btn, deadline"
                        mnemonicParsing="false" text="Deadline" />
+               <Button onAction="#handleTagChanged" styleClass="tag-btn, calendar"
+                       mnemonicParsing="false" text="Calendar" />
                <Button onAction="#handleTagChanged" styleClass="tag-btn, teams"
                        mnemonicParsing="false" text="Teams" />
-               <Button onAction="#handleTagChanged" styleClass="tag-btn, setting"
-                       mnemonicParsing="false" text="Setting" />
             </HBox>
       </top>
 

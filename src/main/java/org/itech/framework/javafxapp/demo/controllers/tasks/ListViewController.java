@@ -366,17 +366,12 @@ public class ListViewController {
 							int index = taskTable.getItems().indexOf(selectedTask);
 
 							// Cancel notifications for old task
-							notificationScheduler.cancelNotifications(selectedTask);
+							notificationScheduler.cancelNotifications(saved);
 
 							if(!TaskStatus.COMPLETE.getCode().equals(saved.getStatus())
 							&& !TaskStatus.CANCEL.getCode().equals(saved.getStatus())){
 								// Schedule notifications for updated task
 								notificationScheduler.scheduleNotifications(saved);
-
-								// Add listener for future changes
-								saved.dueDateProperty().addListener((obs, oldVal, newVal) -> {
-									notificationScheduler.scheduleNotifications(saved);
-								});
 							}
 							if (CommonValidator.validInteger(index)) {
 								taskTable.getItems().set(index, saved);

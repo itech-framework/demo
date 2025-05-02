@@ -13,7 +13,7 @@ public interface TaskService {
     
     List<TaskDTO> getTasksByDueStatus(DueStatus status, Integer limit);
 
-    List<TaskDTO> getTasksByFilter(TaskFilterDTO dto);
+    List<TaskDTO> getTasksByFilter(TaskFilterDTO dto, boolean includeOverdue);
 
     List<TaskDTO> getAllFutureSchedule();
 }

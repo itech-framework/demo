@@ -2,7 +2,6 @@ package org.itech.framework.javafxapp.demo.controllers.tasks;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.itech_framework.java_fx.utils.concurrent.BackgroundTaskService;
-import io.github.itech_framework.java_fx.utils.node.StyleUtils;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -483,7 +482,7 @@ public class ListViewController {
 
 	private void executeFilterService(TaskFilterDTO dto){
 		BackgroundTaskService.getInstance().executeTask(
-				()-> taskService.getTasksByFilter(dto),
+				()-> taskService.getTasksByFilter(dto, true),
 				data -> {
 					taskTable.getItems().clear();
 					taskTable.getItems().addAll(data);

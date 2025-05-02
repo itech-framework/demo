@@ -76,10 +76,10 @@ public class TaskRepository extends SimpleFlexiJpaRepository<Task, Long> {
 		return sb.toString();
 	}
 
-	public List<Task> getTasksByFilter(TaskFilterDTO dto){
+	public List<Task> getTasksByFilter(TaskFilterDTO dto, boolean includeOverdue){
 		return executeQuery(session -> {
 			QueryParameters parameters = new QueryParameters();
-			String sql = buildSQLQueryByFilter(dto, parameters);
+			String sql = buildSQLQueryByFilter(dto, parameters, includeOverdue);
 			Query<Task> query = session.createNativeQuery(sql, Task.class);
 			parameters.applyTo(query);
 
@@ -87,12 +87,13 @@ public class TaskRepository extends SimpleFlexiJpaRepository<Task, Long> {
 		});
 	}
 
-	private String buildSQLQueryByFilter(TaskFilterDTO dto, QueryParameters params){
+	private String buildSQLQueryByFilter(TaskFilterDTO dto, QueryParameters params, boolean includeOverdue){
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT * FROM tasks WHERE 1=1 ");
 
 		if(CommonValidator.isValidObject(dto.getDate())){
-			builder.append("AND DATE(due_date) = :date ");
+			String sign = includeOverdue ? "<" : "=";
+			builder.append("AND DATE(due_date) ").append(sign).append(" :date ");
 			params.add("date", dto.getDate());
 		}
 
@@ -104,11 +105,16 @@ public class TaskRepository extends SimpleFlexiJpaRepository<Task, Long> {
 		if(CommonValidator.validInteger(dto.getPriorityStatus())){
 			builder.append("AND priority = :priorityStatus ");
 			params.add("priorityStatus", dto.getPriorityStatus());
+
 		}
 
 		if(CommonValidator.validInteger(dto.getStatus())){
 			builder.append("AND status = :status ");
 			params.add("status", dto.getStatus());
+			if(TaskStatus.COMPLETE.getCode().equals(dto.getStatus())){
+				builder.append("AND status != :completeStatus ");
+				params.add("completeStatus", TaskStatus.COMPLETE.getCode());
+			}
 		}
 
 		if(CommonValidator.validInteger(dto.getSortBy())){

@@ -83,8 +83,8 @@ public class TaskServiceImpl implements TaskService{
 	}
 
     @Override
-    public List<TaskDTO> getTasksByFilter(TaskFilterDTO dto) {
-        List<Task> tasks = this.taskRepository.getTasksByFilter(dto);
+    public List<TaskDTO> getTasksByFilter(TaskFilterDTO dto, boolean includeOverdue) {
+        List<Task> tasks = this.taskRepository.getTasksByFilter(dto, includeOverdue);
         if(CommonValidator.validList(tasks)){
             return tasks.stream().map(TaskDTO::new).toList();
         }

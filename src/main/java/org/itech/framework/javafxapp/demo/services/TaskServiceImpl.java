@@ -1,9 +1,6 @@
 package org.itech.framework.javafxapp.demo.services;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import io.github.itech_framework.core.annotations.components.levels.BusinessLogic;
 import io.github.itech_framework.core.annotations.reactives.Rx;
@@ -84,9 +81,15 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public List<TaskDTO> getTasksByFilter(TaskFilterDTO dto, boolean includeOverdue) {
-        List<Task> tasks = this.taskRepository.getTasksByFilter(dto, includeOverdue);
-        if(CommonValidator.validList(tasks)){
-            return tasks.stream().map(TaskDTO::new).toList();
+        List<Task> tasks = this.taskRepository.getTasksByFilter(dto);
+        List<Task> overdueTasks = new ArrayList<>();
+        if(includeOverdue){
+            overdueTasks = this.taskRepository.findTaskByDueStatus(DueStatus.OVERDUE,-1);
+        }
+        List<Task> allTasks = new ArrayList<>(overdueTasks);
+        allTasks.addAll(tasks);
+        if(CommonValidator.validList(allTasks)){
+            return allTasks.stream().map(TaskDTO::new).toList();
         }
         return List.of();
     }

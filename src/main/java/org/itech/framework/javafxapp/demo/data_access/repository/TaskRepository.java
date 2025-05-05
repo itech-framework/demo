@@ -28,8 +28,9 @@ public class TaskRepository extends SimpleFlexiJpaRepository<Task, Long> {
 
 			Query<Task> query = session.createNativeQuery(sql, Task.class);
 			params.applyTo(query);
-			query.setMaxResults(limit);
-
+			if(limit > 0){
+				query.setMaxResults(limit);
+			}
 			return query.getResultList();
 		});
 	}
@@ -76,10 +77,10 @@ public class TaskRepository extends SimpleFlexiJpaRepository<Task, Long> {
 		return sb.toString();
 	}
 
-	public List<Task> getTasksByFilter(TaskFilterDTO dto, boolean includeOverdue){
+	public List<Task> getTasksByFilter(TaskFilterDTO dto){
 		return executeQuery(session -> {
 			QueryParameters parameters = new QueryParameters();
-			String sql = buildSQLQueryByFilter(dto, parameters, includeOverdue);
+			String sql = buildSQLQueryByFilter(dto, parameters);
 			Query<Task> query = session.createNativeQuery(sql, Task.class);
 			parameters.applyTo(query);
 
@@ -87,13 +88,16 @@ public class TaskRepository extends SimpleFlexiJpaRepository<Task, Long> {
 		});
 	}
 
-	private String buildSQLQueryByFilter(TaskFilterDTO dto, QueryParameters params, boolean includeOverdue){
+	private String buildSQLQueryByFilter(TaskFilterDTO dto, QueryParameters params){
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT * FROM tasks WHERE 1=1 ");
 
+		/*builder.append("AND status != :overdueStatus ");
+		params.add("overdueStatus", TaskStatus.OVER_DUE.getCode());*/
+
 		if(CommonValidator.isValidObject(dto.getDate())){
-			String sign = includeOverdue ? "<" : "=";
-			builder.append("AND DATE(due_date) ").append(sign).append(" :date ");
+			/*String sign = includeOverdue ? "<" : "=";*/
+			builder.append("AND DATE(due_date) ").append("=").append(" :date ");
 			params.add("date", dto.getDate());
 		}
 
@@ -105,16 +109,11 @@ public class TaskRepository extends SimpleFlexiJpaRepository<Task, Long> {
 		if(CommonValidator.validInteger(dto.getPriorityStatus())){
 			builder.append("AND priority = :priorityStatus ");
 			params.add("priorityStatus", dto.getPriorityStatus());
-
 		}
 
 		if(CommonValidator.validInteger(dto.getStatus())){
 			builder.append("AND status = :status ");
 			params.add("status", dto.getStatus());
-			if(TaskStatus.COMPLETE.getCode().equals(dto.getStatus())){
-				builder.append("AND status != :completeStatus ");
-				params.add("completeStatus", TaskStatus.COMPLETE.getCode());
-			}
 		}
 
 		if(CommonValidator.validInteger(dto.getSortBy())){

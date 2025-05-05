@@ -1,24 +1,25 @@
 package org.itech.framework.javafxapp.demo;
 
-import io.github.itech_framework.core.annotations.methods.PreDestroy;
-import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import javafx.util.Duration;
+import java.io.InputStream;
+import java.util.Objects;
+
+import org.itech.framework.javafxapp.demo.controllers.dashboard.DashboardController;
+import org.itech.framework.javafxapp.demo.controllers.tasks.TaskViewController;
+
 import io.github.itech_framework.core.annotations.ComponentScan;
 import io.github.itech_framework.core.annotations.jfx.EnableJavaFx;
 import io.github.itech_framework.core.annotations.persistences.EnableJPA;
 import io.github.itech_framework.core.annotations.properties.Property;
 import io.github.itech_framework.java_fx.ITechJavaFxApplication;
 import io.github.itech_framework.java_fx.router.config.RouterConfig;
-import org.itech.framework.javafxapp.demo.controllers.dashboard.DashboardController;
-import org.itech.framework.javafxapp.demo.controllers.tasks.TaskViewController;
-
-import java.io.InputStream;
-import java.util.Objects;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
+import javafx.scene.image.Image;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 @ComponentScan(basePackage = "org.itech.framework.javafxapp.demo")
 @EnableJavaFx
@@ -74,6 +75,7 @@ public class TaskManagerApplication extends ITechJavaFxApplication {
             stage.getScene().getRoot().requestFocus();
         });
         stage.setMaximized(true);
+        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/static/images/app-icon.png"))));
         stage.show();
     }
     
@@ -85,9 +87,12 @@ public class TaskManagerApplication extends ITechJavaFxApplication {
 
     private static void loadFont() {
         try {
-            InputStream fontStream = TaskManagerApplication.class.getResourceAsStream(
-                    "/static/fonts/Poppins-Regular.ttf"
+            InputStream fontStream = TaskManagerApplication.class.getClassLoader().getResourceAsStream(
+                    "static/fonts/Poppins-Regular.ttf"
             );
+            System.out.println(TaskManagerApplication.class.getClassLoader().getResourceAsStream(
+                    "static/fonts/Poppins-Regular.ttf"
+            ));
             if (fontStream != null) {
                 Font font = Font.loadFont(fontStream, 0);
                 System.out.println("Loaded font: " + font.getFamily());

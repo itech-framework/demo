@@ -111,22 +111,18 @@ public class TaskRepository extends SimpleFlexiJpaRepository<Task, Long> {
 		if(CommonValidator.validInteger(dto.getStatus())){
 			builder.append("AND status = :status ");
 			params.add("status", dto.getStatus());
-			if(TaskStatus.COMPLETE.getCode().equals(dto.getStatus())){
-				builder.append("AND status != :completeStatus ");
-				params.add("completeStatus", TaskStatus.COMPLETE.getCode());
-			}
 		}
 
 		if(CommonValidator.validInteger(dto.getSortBy())){
 			SortBy sortBy = SortBy.getByCodeOrThrow(dto.getSortBy());
-			switch (sortBy){
-				case DUE_DATE:{
-					builder.append("ORDER BY due_date DESC ");
-				}break;
-				case PRIORITY:{
-					builder.append("ORDER BY priority DESC ");
-				}break;
-			}
+            switch (sortBy) {
+                case DUE_DATE -> {
+                    builder.append("ORDER BY due_date DESC ");
+                }
+                case PRIORITY -> {
+                    builder.append("ORDER BY priority DESC ");
+                }
+            }
 		}
 
 		return builder.toString();

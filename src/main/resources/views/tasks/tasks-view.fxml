@@ -19,7 +19,7 @@
 
       <top>
             <HBox fx:id="tagButtonContainer" prefHeight="30.0" spacing="5.0">
-               <Button mnemonicParsing="false" onAction="#handleBackBtnClicked" text="Back" />
+               <Button mnemonicParsing="false" onAction="#handleBackBtnClicked" text="Home" />
                <Button onAction="#handleTagChanged" styleClass="tag-btn, list, active"
                        mnemonicParsing="false" text="List" />
                <Button onAction="#handleTagChanged" styleClass="tag-btn, deadline"
